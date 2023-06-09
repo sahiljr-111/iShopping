@@ -8,7 +8,16 @@ import { Link } from "react-router-dom";
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 import Rating from '@mui/material/Rating';
-import { FaBars, FaSearch, FaShoppingCart, FaSortDown, FaUserAlt, FaShoppingBag } from "react-icons/fa";
+
+import { FaBars, FaSearch, FaShoppingCart, FaSortDown, FaUserAlt, FaShoppingBag, FaCartArrowDown } from "react-icons/fa";
+import Badge from 'react-bootstrap/Badge';
+
+import { useSelector, useDispatch } from 'react-redux'
+import { addToCart } from "./app/reducer/addCart";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function Home() {
   const [data, setdata] = useState([])
   const [category, setcategory] = useState([])
@@ -18,27 +27,30 @@ function Home() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  {
-    useEffect(() => {
-      axios.get('https://dummyjson.com/products/')
-        .then(function (response) {
-          console.log(response.data.products);
-          setdata(response.data.products);
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
 
-      axios.get('https://dummyjson.com/products/categories')
-        .then(function (response) {
-          setcategory(response.data);
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-    }, [])
+  const cartdata = useSelector((state) => state.addcart)
+  const dispatch = useDispatch()
 
-  }
+
+  useEffect(() => {
+    axios.get('https://dummyjson.com/products/')
+      .then(function (response) {
+        console.log(response.data.products);
+        setdata(response.data.products);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+
+    axios.get('https://dummyjson.com/products/categories')
+      .then(function (response) {
+        setcategory(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }, [])
+
 
   const myfun = (items) => {
 
@@ -70,6 +82,13 @@ function Home() {
       })
   }
 
+  function toastalert() {
+    toast.success("cart added", {
+      position: "bottom-right",
+      autoClose:500
+    })
+  }
+
 
   return (
     <>
@@ -81,13 +100,13 @@ function Home() {
                 <Button variant="dark" className='mx-1' onClick={handleShow}>
                   <FaBars className='me-2' />Categories
                 </Button>
-                    <li className='mx-2 '><a href="#" className='btn btn-outline-info d-flex align-items-center'>More <FaSortDown /></a></li>
+                <li className='mx-2 '><a href="/" className='btn btn-outline-info d-flex align-items-center'>More <FaSortDown /></a></li>
               </div>
             </div>
             <div className="navbar">
               <div className="navbaritem">
                 <div className="social d-md-flex justify-content-center align-items-center">
-                  <h1 className=''><a href="#" className='text-white me-4' onClick={refresh}>iStore</a></h1>
+                  <h1 className=''><a href="/" className='text-white me-4' onClick={refresh}>iStore</a></h1>
                   <input type="text" className='searcharea ps-2 py-2' id="searchbar" placeholder='Search product' onKeyUp={(e) => inputkey(e.target.value)} />
                   <span className='searchbtn btn text-center fs-5 text-white pb-3' ><FaSearch /></span>
                   <ul className='d-flex justify-content-between align-items-center'>
@@ -96,8 +115,8 @@ function Home() {
               </div>
             </div>
             <div className="icons d-flex justify-content-center align-items-center">
-              <button class="btn btn-outline-info" type="submit">Login <FaUserAlt className='ms-2'/></button>
-              <span className='mx-2'><a href="#" className='btn btn-dark text-white fs-5'>Cart <FaShoppingCart className='' /></a></span>
+              <button className="btn btn-outline-info" type="submit">Login <FaUserAlt className='ms-2' /></button>
+              <span className='mx-2'><Link to='/cart' className='btn btn-dark text-white fs-5'>Cart <FaShoppingCart /><Badge pill bg="primary" className='ms-2'>{cartdata.length}</Badge></Link></span>
             </div>
           </div>
         </div>
@@ -130,7 +149,10 @@ function Home() {
                             </div>
                           </div>
                         </div>
-                        <Link to={`/product/${item.id}`} className=' butn fw-bold btn w-100'><FaShoppingBag /> Shop Now  </Link>
+                        <div className='d-flex justify-content-between'>
+                          <Link to={`/product/${item.id}`} className='butn me-1 w-50 fw-bold btn'><FaShoppingBag /> Shop Now  </Link>
+                          <button className='butn btn fw-bold btns' onClick={() => { dispatch(addToCart(item)); toastalert(); }}><FaCartArrowDown className='mx-1' />Add to Cart</button>
+                        </div>
                       </div>
                     </div>
                   </>
@@ -139,6 +161,7 @@ function Home() {
             }
           </div>
         </div>
+        <ToastContainer />
       </div>
 
       <Offcanvas show={show} onHide={handleClose}>

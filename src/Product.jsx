@@ -2,10 +2,16 @@ import { Link, useParams } from "react-router-dom";
 import { useState } from 'react'
 import { useEffect } from 'react'
 import axios from 'axios';
-import { FaCartArrowDown } from "react-icons/fa";
-
+// import { FaCartArrowDown } from "react-icons/fa";
+import { useSelector } from 'react-redux'
+// import { productcart } from "./app/reducer/addCart";
+import Badge from 'react-bootstrap/Badge';
+import { FaShoppingCart } from "react-icons/fa";
 
 const Product = () => {
+  const cartdata = useSelector((state) => state.addcart)
+  // const dispatch = useDispatch()
+
   var { id } = useParams();
   const [pdata, setpdata] = useState([])
   useEffect(() => {
@@ -19,13 +25,12 @@ const Product = () => {
         // handle error
         console.log(error);
       })
-  }, [])
+  }, [id])
 
   const imgclick = (id) => {
     document.getElementById('imgpath').src = `${(pdata.images || [])[id]}`
   }
 
-  
   return (
     <>
       {
@@ -34,7 +39,7 @@ const Product = () => {
             <h1 className="text-white">Product Detail</h1>
             <div className="links">
               <Link to="/#" className="text-white"> / Go HOME</Link>
-              <Link to="/#" className="text-white"></Link>
+              <span className='mx-2'><Link to='/cart' className='btn btn-dark text-white fs-5'>Cart <FaShoppingCart /><Badge pill bg="primary" className='ms-2'>{cartdata.length}</Badge></Link></span>
             </div>
           </div>
           <div className="container text-white">
@@ -62,8 +67,8 @@ const Product = () => {
                   <p className="">Rating : {pdata.rating}</p>
                 </div>
                 <div className="cart mx-4 my-3">
-                  <Link to={`/cart/${pdata.id}`} className="btn butn btn-info">Purchase now</Link>
-                  <Link to={`/cart/${pdata.id}`} className="btn butn btn-warning mx-2"> <FaCartArrowDown/> AddToCart</Link>
+                  <Link to={'/cart'} className="btn butn btn-info mx-2">Go to cart</Link>
+                  <Link to={'/shop'} className="btn btn-info mx-2">Shop Now</Link>
                 </div>
               </div>
             </div>

@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 body{
   background-color: #232F3E!important;
+  font-family: 'Poppins', sans-serif;
 }
 a{
   text-decoration: none!important;
@@ -88,7 +90,6 @@ p{
 #searchbar{
   border: none;
   border-radius: 5px;
-
 }
 #searchbar:focus{
   outline: 5px solid#175bca83;
@@ -105,4 +106,22 @@ p{
 
 .licata:hover{
   color: #131A22!important;
+}
+.btns{
+  background-color: #133964!important;
+}
+
+/*  */
+.cartdetails{
+  /* border: 1px solid red; */
+  background-color: #4044473f!important;
+  border-radius: 8px;
+  margin-top: 20px!important;
+}
+.shopdetails{
+  background-color: #413b3b6b!important;
+  padding: 10px;
+  margin-top: 20px!important;
+  border-radius: 8px;
+
 }
