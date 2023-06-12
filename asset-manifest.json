@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/ishopping/static/css/main.c9ebd917.css",
+    "main.js": "/ishopping/static/js/main.25d985ee.js",
+    "static/js/787.c130b75a.chunk.js": "/ishopping/static/js/787.c130b75a.chunk.js",
+    "index.html": "/ishopping/index.html",
+    "main.c9ebd917.css.map": "/ishopping/static/css/main.c9ebd917.css.map",
+    "main.25d985ee.js.map": "/ishopping/static/js/main.25d985ee.js.map",
+    "787.c130b75a.chunk.js.map": "/ishopping/static/js/787.c130b75a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c9ebd917.css",
+    "static/js/main.25d985ee.js"
+  ]
+}
